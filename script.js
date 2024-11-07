@@ -54,13 +54,23 @@
 
 //snippets 1
 const slides = document.querySelectorAll('.slide');
+const progressBar = document.querySelectorAll(".indicator-circle");
 const next = document.getElementById("nextButton");
 const prev = document.getElementById("prevButton");
+const indicators = document.querySelectorAll('.indicator-circle');
 var counter=0;
 var intervalID;
+
 slides.forEach((slide, index) =>{
     slide.style.top = `${index * 100}%`;
 })
+const activeImage = (indicator) =>{
+    clearInterval(intervalID);
+    counter = indicator;
+    buttonStyling();
+    slideImage();
+    DynamicSlider();
+};
 const goNext = () =>{
     clearInterval(intervalID);
     counter=counter+1;
@@ -79,6 +89,12 @@ const slideImage = ()=>{
     slides.forEach((slide) =>{
         slide.style.transform = `translateY(-${counter * 100}%)`;
     })
+    updateIndicator();
+}
+function updateIndicator() {
+    indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === counter);
+    });
 }
 function DynamicSlider(){
     intervalID = setInterval(()=>{
